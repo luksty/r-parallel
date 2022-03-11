@@ -1,6 +1,6 @@
 ## Emacs, make this -*- mode: sh; -*-
  
-FROM rocker/r-base
+FROM rocker/r-base:3.6.3
 
 MAINTAINER "Henrik Bengtsson" henrikb@braju.com
 
