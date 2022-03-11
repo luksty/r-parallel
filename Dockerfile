@@ -1,36 +1,15 @@
-## Emacs, make this -*- mode: sh; -*-
- 
 FROM rocker/r-base
-
-MAINTAINER "Henrik Bengtsson" henrikb@braju.com
 
 ## System libraries
 RUN apt-get update \
     && apt-get install -y \
-       libopenmpi-dev \
-       libzmq3-dev\ 
        libssl-dev libcurl4-openssl-dev libssh2-1-dev
 
-## Legacy (snow is deprecated)
-RUN install.r snow doSNOW 
 
-## MPI
-## RUN install.r Rmpi
+ENV RENV_VERSION 0.15.3
+RUN R -e "install.packages('remotes', repos = c(CRAN = 'https://cloud.r-project.org'))"
+RUN R -e "remotes::install_github('rstudio/renv@${RENV_VERSION}')"
 
-## Random Number Generation (RNG)
-RUN install.r rlecuyer
-
-## The foreach ecosystem
-RUN install.r foreach iterators
-RUN install.r doParallel doMC doRNG
-
-## The future ecosystem
-RUN install.r future
-RUN install.r future.apply
-RUN install.r doFuture
-RUN install.r future.callr
-RUN install.r furrr
-
-RUN install.r BatchJobs future.BatchJobs   ## heavy set of dependencies
-RUN install.r batchtools future.batchtools ## heavy set of dependencies
-RUN install.r clustermq                    ## heavy set of dependencies
+WORKDIR /data/R
+COPY renv.lock renv.lock
+RUN R -e 'renv::restore()'
