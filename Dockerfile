@@ -8,7 +8,8 @@ MAINTAINER "Henrik Bengtsson" henrikb@braju.com
 RUN apt-get update \
     && apt-get install -y \
        libopenmpi-dev \
-       libzmq3-dev
+       libzmq3-dev\ 
+       libssl-dev libcurl4-openssl-dev libssh2-1-dev
 
 ## Legacy (snow is deprecated)
 RUN install.r snow doSNOW 
