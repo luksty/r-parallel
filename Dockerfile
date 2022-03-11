@@ -1,4 +1,4 @@
-FROM r-base:3.5.2
+FROM rocker/r-base:3.6.3
 
 ## System libraries
 RUN apt-get update \
