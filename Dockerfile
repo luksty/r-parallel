@@ -1,16 +1,19 @@
-FROM rocker/r-base:3.6.3
+FROM r-base
 
 ## System libraries
 RUN apt-get update \
     && apt-get install -y \
        libssl-dev libcurl4-openssl-dev libssh2-1-dev
-
-
-ENV RENV_VERSION 0.15.3
-RUN R -e "install.packages('remotes', repos = c(CRAN = 'https://cloud.r-project.org'))"
-RUN R -e "remotes::install_github('rstudio/renv@${RENV_VERSION}')"
-
-RUN mkdir /R
-WORKDIR /R
-COPY /data/R/renv.lock /R/renv.lock
-RUN R -e 'renv::restore()'
+RUN apt-get update \
+    && apt-get install -y \
+        linux-perf \
+        linux-base \
+    && rm -rf /var/lib/apt/lists/*
+    
+RUN install.r doParallel
+RUN install.r data.table
+RUN install.r prophet
+RUN install.r forecast
+RUN install.r foreach
+RUN install.r doSNOW
+RUN install.r doMC
