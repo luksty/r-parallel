@@ -17,3 +17,5 @@ RUN install.r forecast
 RUN install.r foreach
 RUN install.r doSNOW
 RUN install.r doMC
+
+ENTRYPOINT [ "/bin/bash" ]
